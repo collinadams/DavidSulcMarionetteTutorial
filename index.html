@@ -40,15 +40,23 @@
       var ContactManager = new Marionette.Application();
 
       ContactManager.StaticView = Marionette.ItemView.extend({
-        el: "#main-region",
         template: "#static-template"
       });
 
-      ContactManager.on('start', function(){
-        var staticView = new ContactManager.StaticView({
-          template: "#different-static-template"
+      ContactManager.on("before:start", function(){
+        var RegionContainer = Marionette.LayoutView.extend({
+          el: "#app-container",
+
+          regions: {
+            main: "#main-region"
+          }
         });
-        staticView.render();
+        ContactManager.regions = new RegionContainer();
+      });
+
+      ContactManager.on('start', function(){
+        var staticView = new ContactManager.StaticView();
+        ContactManager.regions.main.show(staticView);
       });
       
       ContactManager.start();
