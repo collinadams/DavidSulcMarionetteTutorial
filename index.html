@@ -45,7 +45,17 @@
       ContactManager.ContactCollection = Backbone.Collection.extend({
         model: ContactManager.Contact,
 
-        comparator: 'firstName'
+        comparator: function(a, b){
+          if(a.get('firstName') < b.get('firstName')){
+            return -1;
+          }else if(a.get('firstName') > b.get('firstName')){
+            return 1;
+          }else if(a.get('lastName') < b.get('lastName')){
+            return -1;
+          }else if(a.get('lastName') > b.get('lastName')){
+            return 1;
+          }
+        }
       });
 
       ContactManager.ContactItemView = Marionette.ItemView.extend({
@@ -81,9 +91,17 @@
       ContactManager.on('start', function(){
         var contacts = new ContactManager.ContactCollection([
           {
+            firstName: 'Alice',
+            lastName: 'Tampen'
+          },
+          {
             firstName: 'Bob',
             lastName: 'Brigham',
             phoneNumber: '555-0163'
+          },
+          {
+            firstName: 'Alice',
+            lastName: 'Artsy'
           },
           {
             firstName: 'Alice',
@@ -94,6 +112,10 @@
             firstName: 'Charlie',
             lastName: 'Campbell',
             phoneNumber: '555-0129'
+          },
+          {
+            firstName: 'Alice',
+            lastName: 'Smith'
           }
         ]);
 
